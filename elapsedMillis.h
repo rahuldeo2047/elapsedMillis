@@ -31,6 +31,29 @@
 #include "WProgram.h"
 #endif
 
+class elapsedSeconds
+{
+private:
+	unsigned long s;
+public:
+	elapsedSeconds(void) { s = millis()*0.001; }
+	elapsedSeconds(unsigned long val) { s = millis()*0.001 - val; }
+	elapsedSeconds(const elapsedSeconds &orig) { s = orig.s; }
+	operator unsigned long () const { return millis() - s; }
+	elapsedSeconds & operator = (const elapsedSeconds &rhs) { s = rhs.s; return *this; }
+	elapsedSeconds & operator = (unsigned long val) { s = millis() - val; return *this; }
+	elapsedSeconds & operator -= (unsigned long val)      { s += val ; return *this; }
+	elapsedSeconds & operator += (unsigned long val)      { s -= val ; return *this; }
+	elapsedSeconds operator - (int val) const           { elapsedSeconds r(*this); r.s += val; return r; }
+	elapsedSeconds operator - (unsigned int val) const  { elapsedSeconds r(*this); r.s += val; return r; }
+	elapsedSeconds operator - (long val) const          { elapsedSeconds r(*this); r.s += val; return r; }
+	elapsedSeconds operator - (unsigned long val) const { elapsedSeconds r(*this); r.s += val; return r; }
+	elapsedSeconds operator + (int val) const           { elapsedSeconds r(*this); r.s -= val; return r; }
+	elapsedSeconds operator + (unsigned int val) const  { elapsedSeconds r(*this); r.s -= val; return r; }
+	elapsedSeconds operator + (long val) const          { elapsedSeconds r(*this); r.s -= val; return r; }
+	elapsedSeconds operator + (unsigned long val) const { elapsedSeconds r(*this); r.s -= val; return r; }
+};
+
 class elapsedMillis
 {
 private:
